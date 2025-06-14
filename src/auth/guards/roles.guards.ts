@@ -21,7 +21,7 @@ export class RolesGuard implements CanActivate {
     }
 
     const { user } = context.switchToHttp().getRequest();
-    console.log('Usuário do request:', user);
+    console.log('\n\nUsuário do request:', user);
 
     // Verifica se o usuário e suas roles estão definidos
     // Se não estiverem, retorna false.
@@ -32,7 +32,7 @@ export class RolesGuard implements CanActivate {
 
     // Caso o usuário tenha a role ADMIN, permite acesso sem verificar outras roles (User)
     if(user.roles.includes(eRoles.ADMIN)) {
-      console.log('Usuário é ADMIN, acesso permitido.');
+      // console.log('Usuário é ADMIN, acesso permitido.');
       return true;
     }
     

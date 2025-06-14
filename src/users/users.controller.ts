@@ -11,7 +11,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Roles } from 'src/config/constants/roles.constants';
+import { HasRoles, Roles } from 'src/config/constants/roles.constants';
 import { eRoles } from 'src/config/enums/roles.enum';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guards';
@@ -28,9 +28,9 @@ export class UsersController {
   }
 
   @Get()
+  @HasRoles('admin')
   findAll() {
-    console.log('getAdminData foi chamado');
-    return { message: 'Acesso liberado somente para ADMIN' };
+    return this.usersService.findAll();
   }
 
 

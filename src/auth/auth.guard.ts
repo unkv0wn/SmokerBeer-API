@@ -41,7 +41,7 @@ export class AuthGuard implements CanActivate {
         secret: jwtConstants.secret,
       });
 
-      console.log('Payload do token JWT:', payload);
+      // console.log('Payload do token JWT:', payload);
     
       // Adiciona o payload ao request para uso posterior
       request['user'] = payload;
