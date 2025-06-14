@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { eRoles } from 'src/config/enums/roles.enum';
 
 // This should be a real class/interface representing a user entity
 export type User = any;
@@ -12,11 +13,13 @@ export class UsersService {
       userId: 1,
       username: 'john',
       password: 'changeme',
+      role: eRoles.ADMIN,
     },
     {
       userId: 2,
       username: 'maria',
       password: 'guess',
+      role: eRoles.USER,
     },
   ];
 
