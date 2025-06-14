@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { eRoles } from 'src/config/enums/roles.enum';
@@ -23,6 +23,15 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
+    // Verifica se já existe um usuário com o mesmo document
+    const existingUser = await this.userRepository.findOne({
+      where: { document: createUserDto.document },
+    });
+
+    if (existingUser) {
+      throw new BadRequestException('Já existe um usuário com esse documento.');
+    }
+
     const SaltOrRounds = 10;
     const HashedPassword = await bcrypt.hash(
       createUserDto.password,
@@ -38,8 +47,8 @@ export class UsersService {
     return await this.userRepository.save(user); // ira salvar o usuario no banco de dados
   }
 
-  findAll() {
-    return this.userRepository.find();
+  async findAll() {
+    return await this.userRepository.find();
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<mUser> {
