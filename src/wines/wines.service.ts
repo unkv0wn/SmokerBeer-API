@@ -1,26 +1,42 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateWineDto } from './dto/create-wine.dto';
 import { UpdateWineDto } from './dto/update-wine.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { mWine } from 'src/entities/wine.entities';
 
 @Injectable()
 export class WinesService {
-  create(createWineDto: CreateWineDto) {
-    return 'This action adds a new wine';
+  constructor(
+    @InjectRepository(mWine)
+    private wineRepository: Repository<mWine>,
+  ) {}
+
+  async create(createWineDto: CreateWineDto) {
+    const wine = this.wineRepository.create(createWineDto);
+    return await this.wineRepository.save(wine);
   }
 
   findAll() {
-    return `This action returns all wines`;
+    return this.wineRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} wine`;
+    return this.wineRepository.findOneBy({ id });
   }
 
-  update(id: number, updateWineDto: UpdateWineDto) {
-    return `This action updates a #${id} wine`;
+  async update(id: number, updateWineDto: UpdateWineDto) {
+    const wine = await this.wineRepository.findOne({ where: { id } });
+
+    if (!wine) {
+      throw new NotFoundException(`Wine with ID ${id} not found`);
+    }
+
+    const updatedWine = this.wineRepository.merge(wine, updateWineDto);
+    return this.wineRepository.save(updatedWine);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} wine`;
+    return this.wineRepository.delete(id);
   }
 }

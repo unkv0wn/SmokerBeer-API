@@ -14,11 +14,11 @@ export class RolesGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     // Verifica se a rota tem roles requeridas através do decorator @Roles()
-    const requiredRoles = this.reflector.getAllAndOverride<string[]>('roles', [
-      context.getHandler(),
-      context.getClass(),
-    ]) || ['user']; 
-
+    const requiredRoles = this.reflector.getAllAndOverride<eRoles[]>(
+      ROLES_KEY,
+      [context.getHandler(), context.getClass()],
+    );
+    
     //Caso a rota não tenha roles requeridas, permite o acesso.
     if (!requiredRoles || requiredRoles.length === 0) {
       console.log('Nenhuma role requerida para esta rota');
