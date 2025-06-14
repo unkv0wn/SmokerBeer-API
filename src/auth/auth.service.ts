@@ -19,6 +19,8 @@ export class AuthService {
     if (user?.password !== pass) {
       throw new UnauthorizedException();
     }
+    // Cria o payload do token JWT com os dados do usuário
+    // Inclui o ID, nome, documento e roles do usuário
     const payload = { sub: user.id, name: user.name, document: user.document, roles: user.roles };
     return {
       access_token: await this.jwtService.signAsync(payload),

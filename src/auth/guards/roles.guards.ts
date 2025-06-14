@@ -8,11 +8,13 @@ export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
+    // Verifica se a rota tem roles requeridas através do decorator @Roles()
     const requiredRoles = this.reflector.getAllAndOverride<eRoles[]>(
       ROLES_KEY,
       [context.getHandler(), context.getClass()],
     );
 
+    //Caso a rota não tenha roles requeridas, permite o acesso.
     if (!requiredRoles || requiredRoles.length === 0) {
       console.log('Nenhuma role requerida para esta rota');
       return true;
@@ -21,11 +23,14 @@ export class RolesGuard implements CanActivate {
     const { user } = context.switchToHttp().getRequest();
     console.log('Usuário do request:', user);
 
+    // Verifica se o usuário e suas roles estão definidos
+    // Se não estiverem, retorna false.
     if (!user || !user.roles) {
       console.log('Usuário ou roles não definidos no request:', user);
       return false;
     }
 
+    // Caso o usuário tenha a role ADMIN, permite acesso sem verificar outras roles (User)
     if(user.roles.includes(eRoles.ADMIN)) {
       console.log('Usuário é ADMIN, acesso permitido.');
       return true;
@@ -39,6 +44,7 @@ export class RolesGuard implements CanActivate {
     );
     console.log('Usuário tem role requerida?', hasRole);
 
+    // Se o usuário não tiver a role requerida, lança uma exceção de acesso negado
     if (!hasRole) {
       throw new ForbiddenException('Acesso negado: permissão insuficiente.');
     }

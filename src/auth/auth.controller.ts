@@ -26,17 +26,13 @@ export class AuthController {
     return this.authService.signIn(signInDto.document, signInDto.password);
   }
 
-  // @UseGuards(AuthGuard)
-  // @Get('teste')
-  // test(@Request() req) {
-  //   console.log('Request user:', req.user);
-  //   return req.user;
-  // }
-
+  /*
+  Este é um exemeplo de como usar o decorator HasRoles para que possa ser bloqueado a rota. caso necessario.
   @Get('teste')
   @HasRoles('user') // Exemplo de uso do decorator HasRoles
   teste(@Request() req) {
     console.log('Controller - req.user:', req.user); // Verifica se chegou o user
     return req.user;
   }
+  */
 }

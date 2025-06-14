@@ -18,6 +18,7 @@ import { RolesGuard } from './guards/roles.guards';
     }),
   ],
   controllers: [AuthController],
+  //Protege a rota de autenticação com o AuthGuard ou seja abilita a rota de autenticação globalmente
   providers: [AuthService,
     {
       provide: APP_GUARD,

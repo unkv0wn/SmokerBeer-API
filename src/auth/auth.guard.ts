@@ -26,7 +26,9 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
+    // Obtém o request do contexto de execução
     const request = context.switchToHttp().getRequest<Request>();
+    // Extrai o token do cabeçalho Authorization
     const token = this.extractTokenFromHeader(request);
 
     if (!token) {
@@ -52,6 +54,11 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
+  /**
+   * Extrai o token JWT do cabeçalho Authorization.
+   * @param request O objeto de requisição Express.
+   * @returns O token JWT ou undefined se não estiver presente.
+   */
   private extractTokenFromHeader(request: Request): string | undefined {
     const authHeader = request.headers.authorization;
     if (!authHeader) return undefined;
