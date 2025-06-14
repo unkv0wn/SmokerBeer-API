@@ -1,4 +1,9 @@
-import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '../../config/constants/roles.constants';
 import { eRoles } from '../../config/enums/roles.enum';
@@ -9,10 +14,10 @@ export class RolesGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     // Verifica se a rota tem roles requeridas através do decorator @Roles()
-    const requiredRoles = this.reflector.getAllAndOverride<eRoles[]>(
-      ROLES_KEY,
-      [context.getHandler(), context.getClass()],
-    );
+    const requiredRoles = this.reflector.getAllAndOverride<string[]>('roles', [
+      context.getHandler(),
+      context.getClass(),
+    ]) || ['user']; 
 
     //Caso a rota não tenha roles requeridas, permite o acesso.
     if (!requiredRoles || requiredRoles.length === 0) {
@@ -21,7 +26,7 @@ export class RolesGuard implements CanActivate {
     }
 
     const { user } = context.switchToHttp().getRequest();
-   // console.log('\n\nUsuário do request:', user);
+    // console.log('\n\nUsuário do request:', user);
 
     // Verifica se o usuário e suas roles estão definidos
     // Se não estiverem, retorna false.
@@ -31,16 +36,16 @@ export class RolesGuard implements CanActivate {
     }
 
     // Caso o usuário tenha a role ADMIN, permite acesso sem verificar outras roles (User)
-    if(user.roles.includes(eRoles.ADMIN)) {
+    if (user.roles.includes(eRoles.ADMIN)) {
       // console.log('Usuário é ADMIN, acesso permitido.');
       return true;
     }
-    
+
     /*
     console.log('Roles do usuário:', user.roles);
     console.log('Roles requeridas para a rota:', requiredRoles);
-    */ 
-   
+    */
+
     const hasRole = user.roles.some((role: eRoles) =>
       requiredRoles.includes(role),
     );
