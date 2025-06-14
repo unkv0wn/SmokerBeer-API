@@ -15,28 +15,24 @@ import { Roles } from 'src/config/constants/roles.constants';
 import { eRoles } from 'src/config/enums/roles.enum';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guards';
+import { Public } from 'src/config/constants/constants';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @Public()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   @Get()
-  @UseGuards(AuthGuard, RolesGuard) // Aqui você protege a rota!
-  @Roles(eRoles.ADMIN)
   findAll() {
     console.log('getAdminData foi chamado');
     return { message: 'Acesso liberado somente para ADMIN' };
   }
 
-  // @Get(':id')
-  // findById(@Param('id') id: number) {
-  //   return this.usersService.findOneById(id);
-  // }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
