@@ -14,11 +14,17 @@ export class RolesGuard implements CanActivate {
     );
 
     if (!requiredRoles || requiredRoles.length === 0) {
-      return true; 
+      return true;
     }
 
     const { user } = context.switchToHttp().getRequest();
 
-    return requiredRoles.includes(user.role);
+    // Proteção contra undefined
+    if (!user || !user.roles) {
+      return false;
+    }
+
+    // Verifica se o usuário tem pelo menos uma das roles requeridas
+    return user.roles.some((role: eRoles) => requiredRoles.includes(role));
   }
 }

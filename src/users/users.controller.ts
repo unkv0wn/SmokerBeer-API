@@ -1,7 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Roles } from 'src/config/constants/roles.constants';
+import { eRoles } from 'src/config/enums/roles.enum';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guards';
 
 @Controller('users')
 export class UsersController {
@@ -13,8 +26,11 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(AuthGuard, RolesGuard) // Aqui você protege a rota!
+  @Roles(eRoles.ADMIN)
   findAll() {
-    return this.usersService.findAll();
+    console.log('getAdminData foi chamado');
+    return { message: 'Acesso liberado somente para ADMIN' };
   }
 
   @Get(':id')
@@ -31,4 +47,5 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
+
 }

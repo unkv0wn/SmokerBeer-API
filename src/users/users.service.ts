@@ -2,37 +2,30 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { eRoles } from 'src/config/enums/roles.enum';
+import { InjectRepository } from '@nestjs/typeorm';
+import { mUser } from 'src/entities/user.entities';
+import { Repository } from 'typeorm';
 
-// This should be a real class/interface representing a user entity
-export type User = any;
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-      role: eRoles.ADMIN,
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-      role: eRoles.USER,
-    },
-  ];
+  constructor(
+    @InjectRepository(mUser)
+    private userRepository: Repository<mUser>,
+  ) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+  async findOne(email: string): Promise<mUser | null> {
+    return this.userRepository.findOne({ where: { email } });
   }
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async create(createUserDto: CreateUserDto) {
+    const user = this.userRepository.create(createUserDto);
+    return await this.userRepository.save(user);
   }
 
+  
   findAll() {
-    return `This action returns all users`;
+    return this.userRepository.find();
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
