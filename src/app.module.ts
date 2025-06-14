@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Roles } from './config/constants/roles.constants';
+import { RolesGuard } from './auth/guards/roles.guards';
 
 @Module({
   imports: [

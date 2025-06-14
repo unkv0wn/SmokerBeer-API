@@ -10,7 +10,7 @@ export class mUser {
   name: string;
 
   @Column({ unique: true })
-  email: string;
+  document: string;
 
   @Column()
   password: string;

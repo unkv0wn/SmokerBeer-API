@@ -14,17 +14,28 @@ export class RolesGuard implements CanActivate {
     );
 
     if (!requiredRoles || requiredRoles.length === 0) {
+      console.log('Nenhuma role requerida para esta rota');
       return true;
     }
 
     const { user } = context.switchToHttp().getRequest();
+    console.log('Usuário do request:', user);
 
-    // Proteção contra undefined
     if (!user || !user.roles) {
+      console.log('Usuário ou roles não definidos no request:', user);
       return false;
     }
 
-    // Verifica se o usuário tem pelo menos uma das roles requeridas
-    return user.roles.some((role: eRoles) => requiredRoles.includes(role));
+    console.log('Roles do usuário:', user.roles);
+    console.log('Roles requeridas para a rota:', requiredRoles);
+
+    const hasRole = user.roles.some((role: eRoles) =>
+      requiredRoles.includes(role),
+    );
+    console.log('Usuário tem role requerida?', hasRole);
+
+    return hasRole;
   }
 }
+
+

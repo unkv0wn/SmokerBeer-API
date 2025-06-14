@@ -11,18 +11,17 @@ import { RolesGuard } from './guards/roles.guards';
 @Module({
   imports: [
     UsersModule,
-    
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '8h' },
+      signOptions: { expiresIn: '1h' },
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard
+      useClass: AuthGuard
     }
   ],
 })

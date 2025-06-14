@@ -33,10 +33,16 @@ export class UsersController {
     return { message: 'Acesso liberado somente para ADMIN' };
   }
 
+  // @Get(':id')
+  // findById(@Param('id') id: number) {
+  //   return this.usersService.findOneById(id);
+  // }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
@@ -47,5 +53,4 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
-
 }

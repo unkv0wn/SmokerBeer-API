@@ -6,7 +6,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { mUser } from 'src/entities/user.entities';
 import { Repository } from 'typeorm';
 
-
 @Injectable()
 export class UsersService {
   constructor(
@@ -14,8 +13,9 @@ export class UsersService {
     private userRepository: Repository<mUser>,
   ) {}
 
-  async findOne(email: string): Promise<mUser | null> {
-    return this.userRepository.findOne({ where: { email } });
+
+  async findOne(document: string): Promise<mUser | null> {
+    return this.userRepository.findOne({ where: { document } });
   }
 
   async create(createUserDto: CreateUserDto) {
@@ -23,7 +23,6 @@ export class UsersService {
     return await this.userRepository.save(user);
   }
 
-  
   findAll() {
     return this.userRepository.find();
   }

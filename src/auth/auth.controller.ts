@@ -23,13 +23,19 @@ export class AuthController {
   @Post('login')
   @Public()
   signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+    return this.authService.signIn(signInDto.document, signInDto.password);
   }
 
-  @UseGuards(AuthGuard, RolesGuard)
-  @Get('profile')
-  @Roles(eRoles.USER)
-  getProfile(@Request() req) {
+  // @UseGuards(AuthGuard)
+  // @Get('teste')
+  // test(@Request() req) {
+  //   console.log('Request user:', req.user);
+  //   return req.user;
+  // }
+
+  @Get('teste')
+  teste(@Request() req) {
+    console.log('Controller - req.user:', req.user); // Verifica se chegou o user
     return req.user;
   }
 }
