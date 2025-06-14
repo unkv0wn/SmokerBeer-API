@@ -33,12 +33,11 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+  @HasRoles('admin')
+  findOne(@Param('id') id: number) {
+    return this.usersService.findById(id);
   }
-
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
@@ -46,7 +45,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.usersService.remove(id);
   }
 }
