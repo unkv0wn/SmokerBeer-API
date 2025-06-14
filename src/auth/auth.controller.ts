@@ -11,7 +11,7 @@ import {
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { eRoles } from 'src/config/enums/roles.enum';
-import { Roles } from 'src/config/constants/roles.constants';
+import { HasRoles, Roles } from 'src/config/constants/roles.constants';
 import { RolesGuard } from './guards/roles.guards';
 import { Public } from 'src/config/constants/constants';
 
@@ -34,6 +34,7 @@ export class AuthController {
   // }
 
   @Get('teste')
+  @HasRoles('user') // Exemplo de uso do decorator HasRoles
   teste(@Request() req) {
     console.log('Controller - req.user:', req.user); // Verifica se chegou o user
     return req.user;

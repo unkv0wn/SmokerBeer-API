@@ -30,7 +30,6 @@ export class AuthGuard implements CanActivate {
     const token = this.extractTokenFromHeader(request);
 
     if (!token) {
-      console.error('Token não fornecido no header');
       throw new UnauthorizedException('Token não fornecido');
     }
 
@@ -40,12 +39,11 @@ export class AuthGuard implements CanActivate {
         secret: jwtConstants.secret,
       });
 
-      console.log('Payload do token:', request['user']);
-
+      console.log('Payload do token JWT:', payload);
+    
       // Adiciona o payload ao request para uso posterior
       request['user'] = payload;
 
-      console.log('request.user definido:', request['user']);
     } catch (err) {
       console.error('Erro ao validar token JWT:', err.message);
       throw new UnauthorizedException('Token inválido');

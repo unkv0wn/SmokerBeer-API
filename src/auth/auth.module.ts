@@ -21,7 +21,7 @@ import { RolesGuard } from './guards/roles.guards';
   providers: [AuthService,
     {
       provide: APP_GUARD,
-      useClass: AuthGuard
+      useClass: AuthGuard 
     }
   ],
 })
