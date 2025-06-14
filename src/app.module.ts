@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Roles } from './config/constants/roles.constants';
 import { RolesGuard } from './auth/guards/roles.guards';
+import { WinesModule } from './wines/wines.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { RolesGuard } from './auth/guards/roles.guards';
       autoLoadEntities: true,
       synchronize: true, // Cuidado: não use em produção
     }),
+    WinesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

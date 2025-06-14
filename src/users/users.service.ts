@@ -28,6 +28,7 @@ export class UsersService {
       where: { document: createUserDto.document },
     });
 
+    // Se já existir, lança uma exceção de erro
     if (existingUser) {
       throw new BadRequestException('Já existe um usuário com esse documento.');
     }

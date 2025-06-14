@@ -21,7 +21,7 @@ export class RolesGuard implements CanActivate {
     }
 
     const { user } = context.switchToHttp().getRequest();
-    console.log('\n\nUsuário do request:', user);
+   // console.log('\n\nUsuário do request:', user);
 
     // Verifica se o usuário e suas roles estão definidos
     // Se não estiverem, retorna false.
@@ -36,9 +36,11 @@ export class RolesGuard implements CanActivate {
       return true;
     }
     
+    /*
     console.log('Roles do usuário:', user.roles);
     console.log('Roles requeridas para a rota:', requiredRoles);
-
+    */ 
+   
     const hasRole = user.roles.some((role: eRoles) =>
       requiredRoles.includes(role),
     );
