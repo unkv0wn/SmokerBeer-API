@@ -26,6 +26,11 @@ export class RolesGuard implements CanActivate {
       return false;
     }
 
+    if(user.roles.includes(eRoles.ADMIN)) {
+      console.log('Usuário é ADMIN, acesso permitido.');
+      return true;
+    }
+    
     console.log('Roles do usuário:', user.roles);
     console.log('Roles requeridas para a rota:', requiredRoles);
 
