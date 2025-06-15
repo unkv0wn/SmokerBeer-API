@@ -6,7 +6,7 @@ export class mOrder {
   id: number;
 
   @Column()
-  userId: string;
+  username: string;
 
   @Column('json')
   items: { wineId: string; quantity: number; price: number }[];
@@ -21,7 +21,7 @@ export class mOrder {
   })
   status: 'PENDING' | 'CONFIRMED' | 'SHIPPED' | 'DELIVERED';
 
-  @Column({ type: 'numeric', precision: 5, scale: 2 })
+  @Column({ type: 'varchar', nullable: true , default: "PIX"})
   paymentMethod?: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
