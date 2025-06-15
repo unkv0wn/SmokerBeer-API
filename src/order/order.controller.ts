@@ -34,12 +34,6 @@ export class OrderController {
     return this.orderService.findOne(+id);
   }
 
-  @Patch(':id')
-  @HasRoles('user')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.update(+id, updateOrderDto);
-  }
-
   @Delete(':id')
   @HasRoles('user')
   remove(@Param('id') id: string) {
