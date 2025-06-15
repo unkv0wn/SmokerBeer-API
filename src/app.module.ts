@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Roles } from './config/constants/roles.constants';
 import { RolesGuard } from './auth/guards/roles.guards';
 import { WinesModule } from './wines/wines.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { WinesModule } from './wines/wines.module';
       synchronize: true, // Cuidado: não use em produção
     }),
     WinesModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
