@@ -22,10 +22,10 @@ export class OrderController {
     return this.orderService.countAndSum();
   }
 
-  @Post()
+  @Get('name/:name')
   @HasRoles('user')
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto);
+  findByName(@Param('name') name: string) {
+    return this.orderService.FindByName(name);
   }
 
   @Get()
@@ -39,6 +39,13 @@ export class OrderController {
   findOne(@Param('id') id: string) {
     return this.orderService.findOne(+id);
   }
+
+  @Post()
+  @HasRoles('user')
+  create(@Body() createOrderDto: CreateOrderDto) {
+    return this.orderService.create(createOrderDto);
+  }
+
 
   @Delete(':id')
   @HasRoles('user')

@@ -38,6 +38,12 @@ export class OrderService {
     });
   }
 
+  FindByName(name: string) {
+    return this.orderRepository.find({
+      where: { username:name },
+    });
+  }
+
   remove(id: number) {
     return this.orderRepository.delete(id);
   }
